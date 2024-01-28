@@ -1,7 +1,7 @@
 <template>
 <div className='container'>
     <ul><li v-for="item in error" v-bind:key="item">
-    {{ item  }} not valid
+    {{ item  }}
     </li></ul>
     <div className='container1'>
         <h1>Login</h1>
@@ -13,7 +13,7 @@
 
         <div className='input_box'>
 
-            <input type='password' name='password' id='password' placeholder='Password' autoComplete='off' v-model="form.password" />
+            <input type='password' name='password' id='password' placeholder='Password' autoComplete='off' v-model="form.password" v-on:change="handlepassword()" />
             <i className='bx bxs-lock-alt'></i>
         </div>
         <div className='remember_forgot'>   
@@ -36,7 +36,8 @@ export default {
     data() {
         return {
 
-          form: { count: "",
+        form: {
+            count: "",
             password: "",
             technology: [],
             who: null,},
@@ -49,15 +50,23 @@ export default {
             this.error = [];
             for (const item in this.form){
                 if(this.form[item]===null || this.form[item].length===0){
-                    this.error.push(item)
+                    this.error.push(`${item} not valid`)
                 }
             }
-            if(this.error.length===0){
+            if(this.error.length == 0){
                 alert("form submmited")
             }
            
             console.log(this.form ,this.error)
 
+        },
+
+        handlepassword(){
+            this.error = []
+            if (this.form["password"].length < 6) {
+                this.error.push("Password should be minimum 6 characters")
+                return 
+           }            
         }
 
     }
@@ -85,7 +94,7 @@ export default {
 .container1 {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid rgba(255, 255, 255, .2);  
     backdrop-filter: blur(10px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: aliceblue;
